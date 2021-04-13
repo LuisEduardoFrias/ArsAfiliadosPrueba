@@ -33,7 +33,7 @@ namespace ArsAfiliados.Repository
 
             while (await reader.ReadAsync())
             {
-                afiliados.Add( new MostrarAfiliadosDto
+                afiliados.Add(new MostrarAfiliadosDto
                 {
                     Id = reader["Id"].ToInt(),
                     Nombre = reader["Nombre"].ToString(),
@@ -69,9 +69,10 @@ namespace ArsAfiliados.Repository
 
         public async Task<bool> Crear(CrearAfiliadosDto afiliadosDto)
         {
+
             var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("CrearAfiliado",
-                new SqlParameter[]
-                {
+                   new SqlParameter[]
+                   {
                     new SqlParameter
                     {
                         ParameterName = "@Nombre",
@@ -131,12 +132,12 @@ namespace ArsAfiliados.Repository
                         ParameterName = "@PlanId",
                         DbType = System.Data.DbType.Int32,
                         Value = afiliadosDto.PlanId
-                    },
-                }).ExecuteNonQueryAsync() != -1;
+                    }
+                   }).ExecuteNonQueryAsync() != -1;
 
             DataAccess.GetInstance().CloseConnection();
 
-            return result;
+            return true;
 
         }
 
@@ -270,9 +271,9 @@ namespace ArsAfiliados.Repository
 
         public async Task<bool> Inactivar(int id, int inactivar)
         {
-           var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("InactivarAfiliado",
-                new SqlParameter[]
-                {
+            var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("InactivarAfiliado",
+                 new SqlParameter[]
+                 {
                     new SqlParameter
                     {
                         ParameterName = "@Id",
@@ -285,7 +286,7 @@ namespace ArsAfiliados.Repository
                         DbType = System.Data.DbType.Int32,
                         Value = inactivar
                     }
-                }).ExecuteNonQueryAsync() != -1;
+                 }).ExecuteNonQueryAsync() != -1;
 
             DataAccess.GetInstance().CloseConnection();
 

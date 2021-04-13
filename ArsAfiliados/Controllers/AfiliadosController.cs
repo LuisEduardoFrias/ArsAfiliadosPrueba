@@ -18,6 +18,7 @@ namespace ArsAfiliados.Controllers
 
         public async Task<IActionResult> Crear()
         {
+            //pruevas
             var f = await RepositoryPlanes.GetInstance().Crear(new CrearPlanesDto
             {
                 Plan = "MAX",
@@ -42,7 +43,7 @@ namespace ArsAfiliados.Controllers
                 PlanId = 1
             });
 
-                return View();
+            return View();
         }
 
 
