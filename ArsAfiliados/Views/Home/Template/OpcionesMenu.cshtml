@@ -1,0 +1,13 @@
+﻿@model Tuple<string, string, string>
+
+
+<div style="margin:50px; display: inline-block; align-content:center;">
+
+    @Html.ActionLink(Model.Item1, Model.Item2, Model.Item3, null, new
+    {
+        @class = "btn btn-default",
+        @style = "width:350px; height:120px; border-radius:20px; box-shadow: 3px 3px 5px black; font-weight: bold;  padding:49px 0px 0px 0px; font-size: 150%;  "
+    })
+
+</div>
+

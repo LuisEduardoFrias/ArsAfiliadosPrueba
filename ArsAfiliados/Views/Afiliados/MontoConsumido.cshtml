@@ -1,0 +1,84 @@
+﻿@using System.Linq;
+@using ArsAfiliados.Dtos;
+
+@model ActualizarMontoAfiliadoDto
+
+@{
+    ViewBag.Title = "actualizando afiliado";
+
+
+    List<SelectListItem> selectListItemsafiliados = new List<SelectListItem>();
+
+    foreach (string cedulas in ViewBag.cedulas)
+    {
+        selectListItemsafiliados.Add(new SelectListItem { Text = cedulas, Value = cedulas });
+    }
+
+}
+
+<div style="width:100%; margin-top:20px;">
+
+    <h2 style="text-align:center;">ACTUALIZANDO AFILIADO</h2>
+
+</div>
+
+<br />
+<hr />
+
+@using (Html.BeginForm("MontoConsumidoBuscar", "Afiliados",FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+
+    <div>
+        @Html.Label("Cedulas")
+    </div>
+
+    <div>
+        @Html.DropDownList("cedula", selectListItemsafiliados)
+    </div>
+
+    <br />
+
+    <div>
+        <input type="submit" value="buscar afiliado" />
+    </div>
+}
+
+<br />
+<hr />
+
+@using (Html.BeginForm("MontoConsumido", "Afiliados", FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+
+    <div>
+        @Html.LabelFor(Model => Model.Cedula)
+    </div>
+    <div>
+        @Html.Label(Model.Cedula)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(Model => Model.MontoConsumido)
+    </div>
+    <div>
+        @Html.Label(Model.MontoConsumido.ToString())
+    </div>
+
+    <br />
+    
+    <div>
+        @Html.Label("Nuevo monto afiliado")
+    </div>
+    <div>
+        @Html.EditorFor(Model => Model.NuevoMonto)
+    </div>
+
+    <br />
+
+    <div>
+        <input type="submit" value="Actualizar afiliado" />
+    </div>
+}

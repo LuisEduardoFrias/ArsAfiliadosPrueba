@@ -4,13 +4,13 @@
 @model MostrarAfiliadosDto
 
 @{
-    ViewBag.Title = "Listado de afiliados";
+    ViewBag.Title = "actualizando afiliado";
 
 
     List<SelectListItem> selectListItemsEstados = new List<SelectListItem>();
     List<SelectListItem> selectListItemsPlans = new List<SelectListItem>();
 
-    selectListItemsEstados.AddRange(new SelectListItem[] { new SelectListItem { Text = "Activo", Value = "1" }, new SelectListItem { Text = "Inactivo", Value = "2" } });
+    selectListItemsEstados.AddRange(new SelectListItem[] { new SelectListItem { Text = "Activo", Value = "1" }, new SelectListItem { Text = "Activo", Value = "2" } });
 
     foreach (MostrarPlanesDto planes in ViewBag.planes)
     {
@@ -21,7 +21,7 @@
 
 <div style="width:100%; margin-top:20px;">
 
-    <h2 style="text-align:center;">CREANDO AFILIADO</h2>
+    <h2 style="text-align:center;">ACTUALIZANDO AFILIADO</h2>
 
 </div>
 
@@ -99,19 +99,17 @@
         @Html.LabelFor(Model => Model.Estatus)
     </div>
     <div>
-        @Html.DropDownList("EstatusId", selectListItemsEstados)
+        @Html.DropDownListFor(Model => Model.EstatusId, selectListItemsEstados, "EstatusId")
     </div>
 
     <div>
         @Html.LabelFor(Model => Model.Plan)
     </div>
     <div>
-        @Html.DropDownList("PlanId", selectListItemsPlans)
+        @Html.DropDownListFor(Model => Model.PlanId, selectListItemsPlans, "PlanId")
     </div>
 
-    <br />
-    
     <div>
-        <input type="submit" value="Crear afiliado" />
+        <input type="submit" value="Actualizar afiliado" />
     </div>
 }

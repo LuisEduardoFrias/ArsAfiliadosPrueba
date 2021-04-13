@@ -43,4 +43,15 @@ namespace ArsAfiliados.Dtos
         public string Plan => Plan_.Estatus_;
 
     }
+
+    public class ActualizarMontoAfiliadoDto
+    {
+        public string Cedula { get; set; }
+
+        public decimal MontoConsumido { get; set; }
+
+        public decimal NuevoMonto { get; set; }
+
+    }
+
 }

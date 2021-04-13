@@ -1,5 +1,81 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<ArsAfiliados.Dtos.MostrarAfiliadosDto>
+
 @{
+    ViewBag.Title = "Listado de afiliados";
+    int Index = 0;
 }
+
+
+<div style="width:100%; margin-top:20px;">
+
+    <h2 style="text-align:center;">AFILIADOS</h2>
+
+</div>
+
+<br />
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.Editor("buscar")
+
+    <input type="submit" value="Buscar" class="btn btn-primary" />
+}
+
+<br />
+<hr />
+
+<table class="table">
+
+    <thead>
+
+        <tr>
+
+            <td>@Html.Label("NOMBRE")
+            <td>@Html.Label("APELLIDO")</td>
+            <td>@Html.Label("FECHA DE NACIMIENDO")</td>
+            <td>@Html.Label("NACIMIENTO")</td>
+            <td>@Html.Label("SEXO")</td>
+            <td>@Html.Label("CEDULA")</td>
+            <td>@Html.Label("NUMERO SEGURO SOCIAL")</td>
+            <td>@Html.Label("FECHA DE REGISTRO")</td>
+            <td>@Html.Label("MONTO CONSUMIDO")</td>
+            <td>@Html.Label("ESTATUS")</td>
+            <td>@Html.Label("PLAN")</td>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+
+        @foreach (ArsAfiliados.Dtos.MostrarAfiliadosDto afiliado in Model)
+        {
+            <tr>
+
+                <td> @afiliado.Nombre </td>
+                <td> @afiliado.Apellido </td>
+                <td> @afiliado.Fecha</td>
+                <td> @afiliado.Nacimiento </td>
+                <td> @afiliado.Sexo </td>
+                <td> @afiliado.Cedula</td>
+                <td> @afiliado.NumeroSeguroSocial </td>
+                <td> @afiliado.FechaRegistro </td>
+                <td> @afiliado.MontoConsumido </td>
+                <td> @afiliado.Estatus </td>
+                <td> @afiliado.Plan </td>
+                <td>
+
+                    @Html.ActionLink("Actualizar afiliado","Actualizar", new { cedula = afiliado.Cedula }, new { @class = "btn btn-success btn-lg" })
+
+                    @Html.ActionLink("Activar/Inactivar", "Inactivar", new { cedula = afiliado.Cedula, inactivar = afiliado.EstatusId == 1 ?  2 : 1 }, new { @class = "btn btn-success btn-lg" })
+                
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

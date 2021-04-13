@@ -13,6 +13,6 @@ namespace ArsAfiliados.Interface
 
         Task<P> Buscar(string cedula);
 
-        Task<bool> Inactivar(int id, int inactivar);
+        Task<bool> Inactivar(string cedula, int inactivar);
     }
 }

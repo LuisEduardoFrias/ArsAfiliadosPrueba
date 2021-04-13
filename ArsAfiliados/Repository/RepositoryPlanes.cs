@@ -28,7 +28,7 @@ namespace ArsAfiliados.Repository
         public async Task<List<MostrarPlanesDto>> Mostrar()
         {
             SqlDataReader reader = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure(
-                "MostrarAfiliado").ExecuteReaderAsync();
+                "MostrarPlanes").ExecuteReaderAsync();
 
             List<MostrarPlanesDto> planes = new List<MostrarPlanesDto>();
 
@@ -37,7 +37,7 @@ namespace ArsAfiliados.Repository
                 planes.Add(new MostrarPlanesDto
                 {
                     Id = reader["Id"].ToInt(),
-                    Plan = reader["Plan"].ToString(),
+                    Plan = reader["Plan_"].ToString(),
                     MontoCobertura = reader["MontoCobertura"].ToDecimal(),
                     FechaRegistro = reader["FechaRegistro"].ToDateTime(),
                     Estatus = reader["Estatus"].ToBool(),
@@ -145,7 +145,7 @@ namespace ArsAfiliados.Repository
                 return new MostrarPlanesDto
                 {
                     Id = reader["Id"].ToInt(),
-                    Plan = reader["Plan"].ToString(),
+                    Plan = reader["Plan_"].ToString(),
                     MontoCobertura = reader["MontoCobertura"].ToDecimal(),
                     FechaRegistro = reader["FechaRegistro"].ToDateTime(),
                     Estatus = reader["Estatus"].ToBool(),
@@ -157,7 +157,7 @@ namespace ArsAfiliados.Repository
             return new MostrarPlanesDto();
         }
 
-        public async Task<bool> Inactivar(int id, int inactivar)
+        public async Task<bool> Inactivar(string cedula, int inactivar)
         {
             var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("InactivarPlanes",
                 new SqlParameter[]
@@ -165,8 +165,8 @@ namespace ArsAfiliados.Repository
                     new SqlParameter
                     {
                         ParameterName = "@Id",
-                        DbType = System.Data.DbType.Int32,
-                        Value = id
+                        DbType = System.Data.DbType.String,
+                        Value = cedula.ToInt()
                     },
                     new SqlParameter
                     {

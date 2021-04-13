@@ -1,6 +1,8 @@
 ﻿using ArsAfiliados.Dtos;
 using ArsAfiliados.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ArsAfiliados.Controllers
@@ -16,32 +18,15 @@ namespace ArsAfiliados.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> Mostrar(string buscar) =>
+            View(new List<MostrarAfiliadosDto> { await RepositoryAfiliados.GetInstance().Buscar(buscar) });
+            
+
+
         public async Task<IActionResult> Crear()
         {
-            //pruevas
-            var f = await RepositoryPlanes.GetInstance().Crear(new CrearPlanesDto
-            {
-                Plan = "MAX",
-                MontoCobertura = 10000M,
-                FechaRegistro = new System.DateTime(2021, 04, 12),
-                Estatus = true
-            });
-
-
-            var j = await RepositoryAfiliados.GetInstance().Crear(new CrearAfiliadosDto
-            {
-                Nombre = "Luis Eduardo",
-                Apellido = "Frias",
-                Cedula = "38493829309",
-                Fecha = new System.DateTime(1994, 11, 27),
-                Nacimiento = "?",
-                Sexo = 'M',
-                NumeroSeguroSocial = "8482936325926",
-                FechaRegistro = new System.DateTime(2021, 04, 12),
-                MontoConsumido = 0.00M,
-                EstatusId = 1,
-                PlanId = 1
-            });
+            ViewBag.planes = await RepositoryPlanes.GetInstance().Mostrar();
 
             return View();
         }
@@ -57,9 +42,12 @@ namespace ArsAfiliados.Controllers
            return View(afiliadosDto);
         }
 
-        public async Task<IActionResult> Actualizar(CrearAfiliadosDto afiliadosDto)
+
+        public async Task<IActionResult> Actualizar(string cedula)
         {
-            return View();
+            ViewBag.planes = await RepositoryPlanes.GetInstance().Mostrar();
+
+            return View(await RepositoryAfiliados.GetInstance().Buscar(cedula));
         }
 
 
@@ -73,15 +61,62 @@ namespace ArsAfiliados.Controllers
             return View(afiliadosDto);
         }
 
-
-        public async Task<IActionResult> Inactivar(int id, int inactivar)
+        
+        public async Task<IActionResult> MontoConsumido()
         {
-            if (await RepositoryAfiliados.GetInstance().Inactivar(id,inactivar))
+            ViewBag.cedulas = await OctenerListadoCedulaAfiliado();
+
+            return View(new ActualizarMontoAfiliadoDto());
+        }
+
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> MontoConsumidoBuscar(string cedula) 
+        {
+            ViewBag.cedulas = await OctenerListadoCedulaAfiliado();
+
+            var afiliado = await RepositoryAfiliados.GetInstance().Buscar(cedula);
+
+            return View("MontoConsumido", new ActualizarMontoAfiliadoDto { Cedula = afiliado.Cedula, MontoConsumido = afiliado.MontoConsumido });
+        }
+
+        private async Task<List<string>> OctenerListadoCedulaAfiliado()
+        {
+            List<string> cedulas = new List<string>();
+
+            cedulas.AddRange((await RepositoryAfiliados.GetInstance().Mostrar()).Select(x => x.Cedula).ToList());
+
+            return cedulas;
+        }
+
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> MontoConsumido(ActualizarMontoAfiliadoDto afiliadosDto)
+        {
+           if (await RepositoryAfiliados.GetInstance().Actualizar( await ActualizandoMontoAfiliado(afiliadosDto) ))
+               return RedirectToAction("Mostrar");
+
+            return View(afiliadosDto);
+        }
+
+        private async Task<ActualizarAfiliadoDto> ActualizandoMontoAfiliado(ActualizarMontoAfiliadoDto afiliadosDto)
+        {
+            var afiliado = await RepositoryAfiliados.GetInstance().Buscar(afiliadosDto.Cedula);
+
+            afiliado.MontoConsumido += afiliadosDto.NuevoMonto;
+
+            return afiliado;
+        }
+
+        public async Task<IActionResult> Inactivar(string cedula, int inactivar)
+        {
+            if (await RepositoryAfiliados.GetInstance().Inactivar(cedula, inactivar))
                 return RedirectToAction("Mostrar");
 
             return RedirectToAction("Mostrar", new { NoDelete = true});
         }
-
 
     }
 }

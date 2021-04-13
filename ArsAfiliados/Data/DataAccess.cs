@@ -70,6 +70,7 @@ namespace ArsAfiliados.Data
         public void CloseConnection()
         {
             _sqlConnnection.Close();
+            _sqlCommnd.Parameters.Clear();
         }
 
     }

@@ -49,7 +49,7 @@ namespace ArsAfiliados.Repository
                     PlanId = reader["PlanId"].ToInt(),
                     Plan_ = new MostrarPlanesDto
                     {
-                        Plan = reader["Plan"].ToString(),
+                        Plan = reader["Plan_"].ToString(),
                         MontoCobertura = reader["MontoCobertura"].ToInt(),
                         FechaRegistro = reader["FechaRegistro"].ToDateTime(),
                         Estatus = reader["Estatus"].ToBool()
@@ -137,7 +137,7 @@ namespace ArsAfiliados.Repository
 
             DataAccess.GetInstance().CloseConnection();
 
-            return true;
+            return result;
 
         }
 
@@ -220,22 +220,27 @@ namespace ArsAfiliados.Repository
 
         }
 
-        public async Task<MostrarAfiliadosDto> Buscar(string cedula)
+        public async Task<MostrarAfiliadosDto> Buscar(string buscar)
         {
+            if (buscar == null || buscar == string.Empty)
+                buscar = "Todos";
+
             SqlDataReader reader = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure(
                 "BuscarAfiliado", new SqlParameter[]
                 {
                     new SqlParameter
                     {
-                        ParameterName = "@Cedula",
+                        ParameterName = "@Buscar",
                         DbType = System.Data.DbType.String,
-                        Value = cedula
+                        Value = buscar
                     }
                 }).ExecuteReaderAsync();
 
+            MostrarAfiliadosDto afiliado = new MostrarAfiliadosDto();
+
             while (await reader.ReadAsync())
             {
-                return new MostrarAfiliadosDto
+                afiliado = new MostrarAfiliadosDto
                 {
                     Id = reader["Id"].ToInt(),
                     Nombre = reader["Nombre"].ToString(),
@@ -251,7 +256,7 @@ namespace ArsAfiliados.Repository
                     PlanId = reader["PlanId"].ToInt(),
                     Plan_ = new MostrarPlanesDto
                     {
-                        Plan = reader["Plan"].ToString(),
+                        Plan = reader["Plan_"].ToString(),
                         MontoCobertura = reader["MontoCobertura"].ToInt(),
                         FechaRegistro = reader["FechaRegistro"].ToDateTime(),
                         Estatus = reader["Estatus"].ToBool()
@@ -266,19 +271,19 @@ namespace ArsAfiliados.Repository
 
             DataAccess.GetInstance().CloseConnection();
 
-            return new MostrarAfiliadosDto();
+            return afiliado;
         }
 
-        public async Task<bool> Inactivar(int id, int inactivar)
+        public async Task<bool> Inactivar(string cedula, int inactivar)
         {
             var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("InactivarAfiliado",
                  new SqlParameter[]
                  {
                     new SqlParameter
                     {
-                        ParameterName = "@Id",
-                        DbType = System.Data.DbType.Int32,
-                        Value = id
+                        ParameterName = "@cedula",
+                        DbType = System.Data.DbType.String,
+                        Value = cedula
                     },
                     new SqlParameter
                     {
