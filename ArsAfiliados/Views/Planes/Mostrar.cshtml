@@ -1,0 +1,66 @@
+﻿@model List<ArsAfiliados.Dtos.MostrarPlanesDto>
+
+@{
+    ViewBag.Title = "Listado de Planes";
+}
+
+<div style="width:100%; margin-top:20px;">
+
+    <h2 style="text-align:center;">PLANES</h2>
+
+
+    @Html.ActionLink("Volver", "Index", "Home", null, new
+    {
+        @class = "btn btn-primary"
+    })
+
+</div>
+
+
+<br />
+<hr />
+
+<table class="table">
+
+    <thead>
+
+        <tr>
+
+            <td>@Html.Label("PLAN")
+            <td>@Html.Label("MONTO DE COBERTURA")</td>
+            <td>@Html.Label("FECHA DE REGISTRO")</td>
+            <td>@Html.Label("ESTATUS")</td>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+
+        @foreach (ArsAfiliados.Dtos.MostrarPlanesDto plan in Model)
+        {
+            <tr>
+
+                <td> @plan.Plan</td>
+                <td> @plan.MontoCobertura </td>
+                <td> @plan.FechaRegistro </td>
+                <td> @plan.Estatus_</td>
+
+                <td>
+
+                    @Html.ActionLink("Actualizar afiliado", "Actualizar", new { id = plan.Id }, new { @class = "btn btn-success btn-lg" })
+
+                    @Html.ActionLink("Activar/Inactivar", "Inactivar", new { id = plan.Id, Inactivar = Convert.ToInt32(!plan.Estatus) }, new { @class = "btn btn-success btn-lg" })
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<br />
+<br />

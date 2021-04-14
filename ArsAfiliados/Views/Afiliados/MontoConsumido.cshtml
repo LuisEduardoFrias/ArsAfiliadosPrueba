@@ -22,63 +22,75 @@
 
 </div>
 
-<br />
-<hr />
-
-@using (Html.BeginForm("MontoConsumidoBuscar", "Afiliados",FormMethod.Post))
+@Html.ActionLink("Volver", "Mostrar", "Afiliados", null, new
 {
-    @Html.AntiForgeryToken();
-
-    <div>
-        @Html.Label("Cedulas")
-    </div>
-
-    <div>
-        @Html.DropDownList("cedula", selectListItemsafiliados)
-    </div>
-
-    <br />
-
-    <div>
-        <input type="submit" value="buscar afiliado" />
-    </div>
-}
+    @class = "btn btn-primary"
+})
 
 <br />
 <hr />
 
-@using (Html.BeginForm("MontoConsumido", "Afiliados", FormMethod.Post))
-{
-    @Html.AntiForgeryToken();
+<div style="padding:10px; border: 1px solid black; border-radius:6px 3px;">
 
-    <div>
-        @Html.LabelFor(Model => Model.Cedula)
-    </div>
-    <div>
-        @Html.Label(Model.Cedula)
-    </div>
+    @using (Html.BeginForm("MontoConsumidoBuscar", "Afiliados", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken();
 
-    <br />
+        <div>
+            @Html.Label("Cedulas")
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.MontoConsumido)
-    </div>
-    <div>
-        @Html.Label(Model.MontoConsumido.ToString())
-    </div>
+        <div>
+            @Html.DropDownList("cedula", selectListItemsafiliados)
+        </div>
 
-    <br />
-    
-    <div>
-        @Html.Label("Nuevo monto afiliado")
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.NuevoMonto)
-    </div>
+        <br />
+
+        <div>
+            <input type="submit" value="Buscar afiliado" style="color: black;" class="btn btn-success" />
+        </div>
+    }
 
     <br />
+    <hr />
 
-    <div>
-        <input type="submit" value="Actualizar afiliado" />
-    </div>
-}
+    @using (Html.BeginForm("MontoConsumido", "Afiliados", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken();
+
+        <div>
+            @Html.LabelFor(Model => Model.Cedula)
+        </div>
+        <div>
+            @Html.Label(Model.Cedula)
+        </div>
+
+        <br />
+
+        <div>
+            @Html.LabelFor(Model => Model.MontoConsumido)
+        </div>
+        <div>
+            @Html.Label(Model.MontoConsumido.ToString())
+        </div>
+
+        <br />
+
+        <div>
+            @Html.Label("Nuevo monto afiliado")
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.NuevoMonto)
+        </div>
+
+        <br />
+
+        <div>
+            <input type="submit" value="Actualizar afiliado" style="color: black;" class="btn btn-success" />
+        </div>
+    }
+
+</div>
+
+<br />
+<br />

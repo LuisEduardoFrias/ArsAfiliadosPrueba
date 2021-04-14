@@ -26,4 +26,15 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Planes\Mostrar.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+  </ItemGroup>
+
 </Project>

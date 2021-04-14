@@ -2,7 +2,7 @@
 
 namespace ArsAfiliados.Dtos
 {
-    public class CrearPlanesDto
+    public class CrearPlanesDto : ErrorDto
     {
         public string Plan { get; set; }
         public decimal MontoCobertura { get; set; }
@@ -17,6 +17,6 @@ namespace ArsAfiliados.Dtos
 
     public class MostrarPlanesDto : ActualizarPlanesDto
     {
-        public string Estatus_ => Estatus == true ? "" : "";
+        public string Estatus_ => Estatus == true ? "Activo" : "Inactivo";
     }
 }

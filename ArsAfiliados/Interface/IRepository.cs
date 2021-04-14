@@ -11,8 +11,8 @@ namespace ArsAfiliados.Interface
 
         Task<bool> Actualizar(J afiliadosDto);
 
-        Task<P> Buscar(string cedula);
+        Task<P> Buscar(string identidad);
 
-        Task<bool> Inactivar(string cedula, int inactivar);
+        Task<bool> Inactivar(string identidad, int inactivar);
     }
 }

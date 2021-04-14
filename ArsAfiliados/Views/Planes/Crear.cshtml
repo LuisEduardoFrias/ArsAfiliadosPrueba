@@ -1,0 +1,67 @@
+﻿@using ArsAfiliados.Dtos;
+
+@model MostrarPlanesDto
+
+@{
+    ViewBag.Title = "Listado de planes";
+}
+
+<div style="width:100%; margin-top:20px;">
+
+    <h2 style="text-align:center;">CREANDO PLAN</h2>
+
+</div>
+
+@Html.ActionLink("Volver", "Index", "Home", null, new
+{
+    @class = "btn btn-primary"
+})
+
+<br />
+<hr />
+
+<div style="padding:10px; border: 1px solid black; border-radius:6px 3px;">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+
+        <div>
+            @Html.LabelFor(Model => Model.Plan)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Plan)
+        </div>
+
+        <div>
+            @Html.LabelFor(Model => Model.MontoCobertura)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.MontoCobertura)
+        </div>
+
+        <div>
+            @Html.LabelFor(Model => Model.FechaRegistro)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.FechaRegistro)
+        </div>
+
+        <div>
+            @Html.LabelFor(Model => Model.Estatus)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Estatus)
+        </div>
+
+        <br />
+
+        <div>
+            <input type="submit" value="Crear plan" style="color: black;" class="btn btn-success" />
+        </div>
+    }
+
+</div>
+
+<br />
+<br />

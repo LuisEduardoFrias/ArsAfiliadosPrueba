@@ -25,93 +25,104 @@
 
 </div>
 
+@Html.ActionLink("Volver", "Index", "Home", null, new
+{
+    @class = "btn btn-primary"
+})
+
 <br />
 <hr />
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken();
+<div style="padding:10px; border: 1px solid black; border-radius:6px 3px;">
 
-    <div>
-        @Html.LabelFor(Model => Model.Nombre)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.Nombre)
-    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
 
-    <div>
-        @Html.LabelFor(Model => Model.Apellido)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.Apellido)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.Nombre)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Nombre)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.Fecha)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.Fecha)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.Apellido)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Apellido)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.Nacimiento)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.Nacimiento)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.Fecha)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Fecha)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.Sexo)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.Sexo)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.Nacimiento)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Nacimiento)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.Cedula)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.Cedula)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.Sexo)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Sexo)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.NumeroSeguroSocial)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.NumeroSeguroSocial)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.Cedula)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.Cedula)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.FechaRegistro)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.FechaRegistro)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.NumeroSeguroSocial)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.NumeroSeguroSocial)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.MontoConsumido)
-    </div>
-    <div>
-        @Html.EditorFor(Model => Model.MontoConsumido)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.FechaRegistro)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.FechaRegistro)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.Estatus)
-    </div>
-    <div>
-        @Html.DropDownList("EstatusId", selectListItemsEstados)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.MontoConsumido)
+        </div>
+        <div>
+            @Html.EditorFor(Model => Model.MontoConsumido)
+        </div>
 
-    <div>
-        @Html.LabelFor(Model => Model.Plan)
-    </div>
-    <div>
-        @Html.DropDownList("PlanId", selectListItemsPlans)
-    </div>
+        <div>
+            @Html.LabelFor(Model => Model.Estatus)
+        </div>
+        <div>
+            @Html.DropDownList("EstatusId", selectListItemsEstados)
+        </div>
 
-    <br />
-    
-    <div>
-        <input type="submit" value="Crear afiliado" />
-    </div>
-}
+        <div>
+            @Html.LabelFor(Model => Model.Plan)
+        </div>
+        <div>
+            @Html.DropDownList("PlanId", selectListItemsPlans)
+        </div>
+
+        <br />
+
+        <div>
+            <input type="submit" value="Crear afiliado" style="color: black;" class="btn btn-success"/>
+        </div>
+    }
+</div>
+
+<br />
+<br />

@@ -1,0 +1,63 @@
+﻿@using ArsAfiliados.Dtos;
+
+@model MostrarPlanesDto
+
+@{
+    ViewBag.Title = "actualizando planes";
+}
+
+<div style="width:100%; margin-top:20px;">
+
+    <h2 style="text-align:center;">ACTUALIZANDO PLAN</h2>
+
+</div>
+
+@Html.ActionLink("Volver", "Mostrar", "Planes", null, new
+{
+    @class = "btn btn-primary"
+})
+
+<br />
+<hr />
+
+@using (Html.BeginForm("Actualizar", "Planes", new { id = Model.Id }, FormMethod.Post, true, new { @style = "padding:10px; border: 1px solid black; border-radius:6px 3px;" }))
+{
+    @Html.AntiForgeryToken();
+
+    <div>
+        @Html.LabelFor(Model => Model.Plan)
+    </div>
+    <div>
+        @Html.EditorFor(Model => Model.Plan)
+    </div>
+
+    <div>
+        @Html.LabelFor(Model => Model.MontoCobertura)
+    </div>
+    <div>
+        @Html.EditorFor(Model => Model.MontoCobertura)
+    </div>
+
+    <div>
+        @Html.LabelFor(Model => Model.FechaRegistro)
+    </div>
+    <div>
+        @Html.EditorFor(Model => Model.FechaRegistro)
+    </div>
+
+    <div>
+        @Html.LabelFor(Model => Model.Estatus)
+    </div>
+    <div>
+        @Html.EditorFor(Model => Model.Estatus)
+    </div>
+
+    <br />
+
+    <div>
+        <input type="submit" value="Actualizar plan" style="color: black;" class="btn btn-success" />
+    </div>
+}
+
+<br />
+<br />

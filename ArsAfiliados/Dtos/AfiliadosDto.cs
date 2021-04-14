@@ -2,7 +2,7 @@
 
 namespace ArsAfiliados.Dtos
 {
-    public class CrearAfiliadosDto
+    public class CrearAfiliadosDto : ErrorDto
     {
         public string Nombre { get; set; }
 
@@ -36,11 +36,13 @@ namespace ArsAfiliados.Dtos
     {
         public MostrarEstatusDto Estatus_ { get; set; }
 
-        public string Estatus => Estatus_.Estatus_;
+        public string Estatus => Estatus_.Estatus_ ;
 
         public MostrarPlanesDto Plan_ { get; set; }
 
-        public string Plan => Plan_.Estatus_;
+        public string Plan => Plan_.Plan;
+
+        public decimal MontoCobertura => Plan_.MontoCobertura;
 
     }
 

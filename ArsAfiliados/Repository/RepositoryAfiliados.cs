@@ -26,40 +26,47 @@ namespace ArsAfiliados.Repository
 
         public async Task<List<MostrarAfiliadosDto>> Mostrar()
         {
-            SqlDataReader reader = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure(
-                "MostrarAfiliado").ExecuteReaderAsync();
-
             List<MostrarAfiliadosDto> afiliados = new List<MostrarAfiliadosDto>();
 
-            while (await reader.ReadAsync())
+            try
             {
-                afiliados.Add(new MostrarAfiliadosDto
+                SqlDataReader reader = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure(
+                       "MostrarAfiliado").ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
                 {
-                    Id = reader["Id"].ToInt(),
-                    Nombre = reader["Nombre"].ToString(),
-                    Apellido = reader["Apellido"].ToString(),
-                    Fecha = reader["Fecha"].ToDateTime(),
-                    Nacimiento = reader["Nacimiento"].ToString(),
-                    Sexo = reader["Sexo"].Tochar(),
-                    Cedula = reader["Cedula"].ToString(),
-                    NumeroSeguroSocial = reader["NumeroSeguroSocial"].ToString(),
-                    FechaRegistro = reader["FechaRegistro"].ToDateTime(),
-                    MontoConsumido = reader["MontoConsumido"].ToDecimal(),
-                    EstatusId = reader["EstatusId"].ToInt(),
-                    PlanId = reader["PlanId"].ToInt(),
-                    Plan_ = new MostrarPlanesDto
-                    {
-                        Plan = reader["Plan_"].ToString(),
-                        MontoCobertura = reader["MontoCobertura"].ToInt(),
-                        FechaRegistro = reader["FechaRegistro"].ToDateTime(),
-                        Estatus = reader["Estatus"].ToBool()
-                    },
-                    Estatus_ = new MostrarEstatusDto
+                    afiliados.Add(new MostrarAfiliadosDto
                     {
                         Id = reader["Id"].ToInt(),
-                        Estatus = reader["Estatus"].ToBool()
-                    }
-                });
+                        Nombre = reader["Nombre"].ToString(),
+                        Apellido = reader["Apellido"].ToString(),
+                        Fecha = reader["Fecha"].ToDateTime(),
+                        Nacimiento = reader["Nacimiento"].ToString(),
+                        Sexo = reader["Sexo"].Tochar(),
+                        Cedula = reader["Cedula"].ToString(),
+                        NumeroSeguroSocial = reader["NumeroSeguroSocial"].ToString(),
+                        FechaRegistro = reader["FechaRegistro"].ToDateTime(),
+                        MontoConsumido = reader["MontoConsumido"].ToDecimal(),
+                        EstatusId = reader["EstatusId"].ToInt(),
+                        PlanId = reader["PlanId"].ToInt(),
+                        Plan_ = new MostrarPlanesDto
+                        {
+                            Plan = reader["Plan_"].ToString(),
+                            MontoCobertura = reader["MontoCobertura"].ToInt(),
+                            FechaRegistro = reader["FechaRegistro"].ToDateTime(),
+                            Estatus = reader["Estatus"].ToBool()
+                        },
+                        Estatus_ = new MostrarEstatusDto
+                        {
+                            Id = reader["Id"].ToInt(),
+                            Estatus = reader["Estatus"].ToBool()
+                        }
+                    });
+                }
+            }
+            catch
+            {
+                afiliados.Add(new MostrarAfiliadosDto { IsError = true });
             }
 
             DataAccess.GetInstance().CloseConnection();
@@ -69,10 +76,13 @@ namespace ArsAfiliados.Repository
 
         public async Task<bool> Crear(CrearAfiliadosDto afiliadosDto)
         {
+            bool result = false;
 
-            var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("CrearAfiliado",
-                   new SqlParameter[]
-                   {
+            try
+            {
+                result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("CrearAfiliado",
+                           new SqlParameter[]
+                           {
                     new SqlParameter
                     {
                         ParameterName = "@Nombre",
@@ -133,7 +143,9 @@ namespace ArsAfiliados.Repository
                         DbType = System.Data.DbType.Int32,
                         Value = afiliadosDto.PlanId
                     }
-                   }).ExecuteNonQueryAsync() != -1;
+                           }).ExecuteNonQueryAsync() != -1;
+            }
+            catch  { }
 
             DataAccess.GetInstance().CloseConnection();
 
@@ -143,9 +155,13 @@ namespace ArsAfiliados.Repository
 
         public async Task<bool> Actualizar(ActualizarAfiliadoDto afiliadosDto)
         {
-            var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("ActualizarAfiliado",
-                new SqlParameter[]
-                {
+            bool result = false;
+
+            try
+            {
+                result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("ActualizarAfiliado",
+                        new SqlParameter[]
+                        {
                     new SqlParameter
                     {
                         ParameterName = "@Id",
@@ -212,7 +228,9 @@ namespace ArsAfiliados.Repository
                         DbType = System.Data.DbType.Int32,
                         Value = afiliadosDto.PlanId
                     },
-                }).ExecuteNonQueryAsync() != -1;
+                        }).ExecuteNonQueryAsync() != -1;
+            }
+            catch  { }
 
             DataAccess.GetInstance().CloseConnection();
 
@@ -225,48 +243,57 @@ namespace ArsAfiliados.Repository
             if (buscar == null || buscar == string.Empty)
                 buscar = "Todos";
 
-            SqlDataReader reader = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure(
-                "BuscarAfiliado", new SqlParameter[]
-                {
+            MostrarAfiliadosDto afiliado = new MostrarAfiliadosDto();
+
+            try
+            {
+                SqlDataReader reader = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure(
+                        "BuscarAfiliado", new SqlParameter[]
+                        {
                     new SqlParameter
                     {
                         ParameterName = "@Buscar",
                         DbType = System.Data.DbType.String,
                         Value = buscar
                     }
-                }).ExecuteReaderAsync();
+                        }).ExecuteReaderAsync();
 
-            MostrarAfiliadosDto afiliado = new MostrarAfiliadosDto();
 
-            while (await reader.ReadAsync())
-            {
-                afiliado = new MostrarAfiliadosDto
+
+                while (await reader.ReadAsync())
                 {
-                    Id = reader["Id"].ToInt(),
-                    Nombre = reader["Nombre"].ToString(),
-                    Apellido = reader["Apellido"].ToString(),
-                    Fecha = reader["Fecha"].ToDateTime(),
-                    Nacimiento = reader["Nacimiento"].ToString(),
-                    Sexo = reader["Sexo"].Tochar(),
-                    Cedula = reader["Cedula"].ToString(),
-                    NumeroSeguroSocial = reader["NumeroSeguroSocial"].ToString(),
-                    FechaRegistro = reader["FechaRegistro"].ToDateTime(),
-                    MontoConsumido = reader["MontoConsumido"].ToDecimal(),
-                    EstatusId = reader["EstatusId"].ToInt(),
-                    PlanId = reader["PlanId"].ToInt(),
-                    Plan_ = new MostrarPlanesDto
-                    {
-                        Plan = reader["Plan_"].ToString(),
-                        MontoCobertura = reader["MontoCobertura"].ToInt(),
-                        FechaRegistro = reader["FechaRegistro"].ToDateTime(),
-                        Estatus = reader["Estatus"].ToBool()
-                    },
-                    Estatus_ = new MostrarEstatusDto
+                    afiliado = new MostrarAfiliadosDto
                     {
                         Id = reader["Id"].ToInt(),
-                        Estatus = reader["Estatus"].ToBool()
-                    }
-                };
+                        Nombre = reader["Nombre"].ToString(),
+                        Apellido = reader["Apellido"].ToString(),
+                        Fecha = reader["Fecha"].ToDateTime(),
+                        Nacimiento = reader["Nacimiento"].ToString(),
+                        Sexo = reader["Sexo"].Tochar(),
+                        Cedula = reader["Cedula"].ToString(),
+                        NumeroSeguroSocial = reader["NumeroSeguroSocial"].ToString(),
+                        FechaRegistro = reader["FechaRegistro"].ToDateTime(),
+                        MontoConsumido = reader["MontoConsumido"].ToDecimal(),
+                        EstatusId = reader["EstatusId"].ToInt(),
+                        PlanId = reader["PlanId"].ToInt(),
+                        Plan_ = new MostrarPlanesDto
+                        {
+                            Plan = reader["Plan_"].ToString(),
+                            MontoCobertura = reader["MontoCobertura"].ToInt(),
+                            FechaRegistro = reader["FechaRegistro"].ToDateTime(),
+                            Estatus = reader["Estatus"].ToBool()
+                        },
+                        Estatus_ = new MostrarEstatusDto
+                        {
+                            Id = reader["Id"].ToInt(),
+                            Estatus = reader["Estatus"].ToBool()
+                        }
+                    };
+                }
+            }
+            catch
+            {
+                afiliado.IsError = true;
             }
 
             DataAccess.GetInstance().CloseConnection();
@@ -276,26 +303,33 @@ namespace ArsAfiliados.Repository
 
         public async Task<bool> Inactivar(string cedula, int inactivar)
         {
-            var result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("InactivarAfiliado",
-                 new SqlParameter[]
-                 {
-                    new SqlParameter
-                    {
-                        ParameterName = "@cedula",
-                        DbType = System.Data.DbType.String,
-                        Value = cedula
-                    },
-                    new SqlParameter
-                    {
-                        ParameterName = "@Estatus",
-                        DbType = System.Data.DbType.Int32,
-                        Value = inactivar
-                    }
-                 }).ExecuteNonQueryAsync() != -1;
+            bool result = false;
+
+            try
+            {
+                result = await DataAccess.GetInstance().OpenConnection().UserStoreProcedure("InactivarAfiliado",
+                         new SqlParameter[]
+                         {
+                            new SqlParameter
+                            {
+                                ParameterName = "@cedula",
+                                DbType = System.Data.DbType.String,
+                                Value = cedula
+                            },
+                            new SqlParameter
+                            {
+                                ParameterName = "@Estatus",
+                                DbType = System.Data.DbType.Int32,
+                                Value = inactivar
+                            }
+                         }).ExecuteNonQueryAsync() != -1;
+            }
+            catch { }
 
             DataAccess.GetInstance().CloseConnection();
 
             return result;
         }
+
     }
 }

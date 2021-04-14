@@ -14,6 +14,6 @@ namespace ArsAfiliados.Dtos
 
     public class MostrarEstatusDto : ActualizarEstatusDto
     {
-        public string Estatus_ => Estatus == true ? "" : "";
+        public string Estatus_ => Estatus == true ? "Activo" : "Inactivo";
     }
 }

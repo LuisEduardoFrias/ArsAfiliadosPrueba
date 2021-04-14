@@ -2,13 +2,17 @@
 
 @{
     ViewBag.Title = "Listado de afiliados";
-    int Index = 0;
 }
 
 
 <div style="width:100%; margin-top:20px;">
 
     <h2 style="text-align:center;">AFILIADOS</h2>
+
+    @Html.ActionLink("Volver", "Index", "Home", null, new
+    {
+        @class = "btn btn-primary"
+    })
 
 </div>
 
@@ -22,6 +26,7 @@
     <input type="submit" value="Buscar" class="btn btn-primary" />
 }
 
+
 <br />
 <hr />
 
@@ -31,7 +36,8 @@
 
         <tr>
 
-            <td>@Html.Label("NOMBRE")
+            <td>@Html.Label("ID")</td>
+            <td>@Html.Label("NOMBRE")</td>
             <td>@Html.Label("APELLIDO")</td>
             <td>@Html.Label("FECHA DE NACIMIENDO")</td>
             <td>@Html.Label("NACIMIENTO")</td>
@@ -39,9 +45,11 @@
             <td>@Html.Label("CEDULA")</td>
             <td>@Html.Label("NUMERO SEGURO SOCIAL")</td>
             <td>@Html.Label("FECHA DE REGISTRO")</td>
-            <td>@Html.Label("MONTO CONSUMIDO")</td>
             <td>@Html.Label("ESTATUS")</td>
             <td>@Html.Label("PLAN")</td>
+            <td>@Html.Label("MONTO DE COBERTURA")</td>
+            <td>@Html.Label("MONTO CONSUMIDO")</td>
+            <td>@Html.Label("MONTO RESTANTE")</td>
 
         </tr>
 
@@ -54,6 +62,9 @@
         {
             <tr>
 
+                @{ decimal MR = afiliado.MontoCobertura - afiliado.MontoConsumido;}
+
+                <td> @afiliado.Id </td>
                 <td> @afiliado.Nombre </td>
                 <td> @afiliado.Apellido </td>
                 <td> @afiliado.Fecha</td>
@@ -62,15 +73,18 @@
                 <td> @afiliado.Cedula</td>
                 <td> @afiliado.NumeroSeguroSocial </td>
                 <td> @afiliado.FechaRegistro </td>
-                <td> @afiliado.MontoConsumido </td>
                 <td> @afiliado.Estatus </td>
                 <td> @afiliado.Plan </td>
+                <td> @afiliado.MontoCobertura</td>
+                <td> @afiliado.MontoConsumido </td>
+                <td> @MR </td>
+
                 <td>
 
-                    @Html.ActionLink("Actualizar afiliado","Actualizar", new { cedula = afiliado.Cedula }, new { @class = "btn btn-success btn-lg" })
+                    @Html.ActionLink("Actualizar afiliado", "Actualizar", new { cedula = afiliado.Cedula }, new { @class = "btn btn-success btn-lg" })
 
-                    @Html.ActionLink("Activar/Inactivar", "Inactivar", new { cedula = afiliado.Cedula, inactivar = afiliado.EstatusId == 1 ?  2 : 1 }, new { @class = "btn btn-success btn-lg" })
-                
+                    @Html.ActionLink("Activar/Inactivar", "Inactivar", new { cedula = afiliado.Cedula, inactivar = (afiliado.EstatusId == 1 ? 2 : 1) }, new { @class = "btn btn-success btn-lg" })
+
                 </td>
 
             </tr>
@@ -79,3 +93,6 @@
     </tbody>
 
 </table>
+
+<br />
+<br />
